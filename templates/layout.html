@@ -5,10 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>我的网站</title>
+ <link rel="icon" type="image/x-ico" href="/static/adminlte/img/AdminLTELogo.png" />
   <!-- Font Awesome -->
    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Theme style -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/site.css' %}">
   <link rel="stylesheet" href="{% static 'adminlte/css/adminlte.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
     {% block head %}
     {% endblock %}
 </head>
@@ -53,6 +56,30 @@
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'adminlte/js/adminlte.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="/static/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script>
+{% if messages %}
+    {% for message in messages %}
+        $(function() {
+            let Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+            });
+            Toast.fire({
+            {% if message.level == 25 %}
+                icon: 'success',
+            {% endif %}
+            {% if message.level == 40 %}
+                icon: 'error',
+            {% endif %}
+                  title: '{{ message }}'
+            })
+        })
+    {% endfor %}
+{% endif %}
+ </script>
 {% block foot %}
 {% endblock %}
 </body>
