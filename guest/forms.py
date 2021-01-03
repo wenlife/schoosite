@@ -1,5 +1,5 @@
 from django import forms
-from .models import Teacher
+from .models import Teacher, TeacherImport
 
 
 class TeacherForm(forms.ModelForm):
@@ -35,6 +35,14 @@ class TeacherForm(forms.ModelForm):
         }
 
 
-class TeacherImport(forms.Form):
-    file = forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}), label='选择文件',)
+class TeacherImportForm(forms.ModelForm):
+    class Meta:
+        model = TeacherImport
+        fields = '__all__'
+        widgets = {
+            'file': forms.FileInput(attrs={'class': 'form-control'})
+        }
+        labels = {
+            'file': '选择文件'
+        }
 

@@ -17,3 +17,7 @@ class Teacher(models.Model):
     school = models.CharField(max_length=100, null=True, blank=True)
     note = models.CharField(max_length=200, null=True, blank=True)
 
+
+class TeacherImport(models.Model):
+    file = models.FileField(upload_to='excel')
+

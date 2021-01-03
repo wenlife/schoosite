@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse
-from .models import Teacher
-from .forms import TeacherForm, TeacherImport
+from .models import Teacher, TeacherImport
+from .forms import TeacherForm, TeacherImportForm
 # Create your views here.
 
 
@@ -24,11 +24,12 @@ def teacher_create(request):
 
 
 def teacher_import(request):
-    form = TeacherImport()
+    form = TeacherImportForm()
     if request.method == 'POST':
-        form = TeacherImport(request.POST, request.FILES)
+        form = TeacherImportForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
+            form.save()
+            print('success')
     return render(request, 'teacher/import.html', {'form': form})
 
 
