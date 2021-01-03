@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block title %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1>教学部管理</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Simple Tables</li>
+    </ol>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card  card-primary">
+          <div class="card-header">
+            <h3 class="card-title">新增教学部数据</h3>
+          </div>
+          <!-- /.card-header -->
+        <form method="post" action="{% url 'setting:department-create' %}">
+          <div class="card-body">
+              {% csrf_token %}
+              {{ form.as_p }}
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">提交</button>
+          </div>
+        </form>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %}
+
+
+

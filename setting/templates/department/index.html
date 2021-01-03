@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+<!-- 标题和导航位置 -->
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/static/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
+{% endblock %}
+{% block title %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1>教学部管理</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Simple Tables</li>
+    </ol>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<!-- 页面内容区域 -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <a class="btn btn-primary" href="{% url 'setting:department-create' %}">添加数据</a>
+              <a class="btn btn-primary" href="{% url 'setting:department-create' %}">清空数据</a>
+            <div class="card-tools">
+              <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr><th>id</th><th>标题</th><th>入学年份</th><th>负责人</th><th>备注</th><th>操作</th></tr>
+                </thead>
+                <tbody>
+                    {% for department in departments %}
+                        <tr><td>{{ department.id }}</td>
+                            <td>{{ department.title }}</td>
+                            <td>{{ department.entry_year }}</td>
+                            <td>{{ department.person_in_charge }}</td>
+                            <td>{{ department.note }}</td>
+                            <td><a href="{% url 'setting:department-edit' department.id %}">编辑</a> |
+                                <a href="{% url 'setting:department-del' department.id %}">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+{% block foot %}
+<script src="/static/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script>
+{% if messages %}
+    {% for message in messages %}
+        $(function() {
+            let Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+            });
+            Toast.fire({
+            {% if message.level == 25 %}
+                icon: 'success',
+            {% endif %}
+            {% if message.level == 40 %}
+                icon: 'error',
+            {% endif %}
+                  title: '{{ message }}'
+            })
+        })
+    {% endfor %}
+{% endif %}
+ </script>
+{% endblock %}
+
