@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse
 from .models import Teacher, TeacherImport
 from .forms import TeacherForm, TeacherImportForm
+import xlrd
 # Create your views here.
 
 
@@ -28,15 +29,13 @@ def teacher_import(request):
     if request.method == 'POST':
         form = TeacherImportForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            print('success')
+            #print(form.cleaned_data.get('file').path)
+            f = form.save()
+            #files = TeacherImport.objects.all().delete()
+            print(f.file.path)
+            f.delete()
+
     return render(request, 'teacher/import.html', {'form': form})
-
-
-def handle_uploaded_file(f):
-    with open(f, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
 
 
 def teacher_edit(request, ids):
@@ -47,7 +46,7 @@ def teacher_edit(request, ids):
         if form.is_valid():
             form.save()
             return redirect(reverse('guest:teacher_index'))
-    return render(request, 'teacher/edit.html',{'form': form, 'teacher':teacher})
+    return render(request, 'teacher/edit.html', {'form': form, 'teacher':teacher})
 
 
 def teacher_del(request, ids):

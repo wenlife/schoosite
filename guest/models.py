@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 from utils import param
+from django.core import validators
 # Create your models here.
 type_choice = (('ch', '教师'), ('admin', '管理员'), ('back', '后勤人员'))
 gender_choice = ((1, '女'), (2, '男'))
@@ -19,5 +22,9 @@ class Teacher(models.Model):
 
 
 class TeacherImport(models.Model):
-    file = models.FileField(upload_to='excel')
+    file = models.FileField(upload_to='excel', validators=[validators.FileExtensionValidator(['xls', 'xlsx'],message='必须为excel文件，后缀名为xls,xlsx!')])
 
+
+@receiver(pre_delete, sender=TeacherImport)
+def teacherimport_delete(sender, instance, **kwargs):
+    instance.file.delete(True)
