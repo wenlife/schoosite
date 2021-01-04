@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse
 from .models import Teacher, TeacherImport
 from .forms import TeacherForm, TeacherImportForm
-import xlrd
+import pandas as pd
 # Create your views here.
 
 
@@ -29,10 +29,23 @@ def teacher_import(request):
     if request.method == 'POST':
         form = TeacherImportForm(request.POST, request.FILES)
         if form.is_valid():
-            #print(form.cleaned_data.get('file').path)
             f = form.save()
-            #files = TeacherImport.objects.all().delete()
             print(f.file.path)
+            book = pd.read_excel(f.file.path, sheet_name=0)
+            book = book.fillna("")
+            #all_data = book.head(5).T.to_dict()
+            all_data = book.to_dict(orient='records')
+            # t_list = list()
+            # for s in all_data:
+            #     print(s)
+            #     t = Teacher(**s)
+            #     t_list.append(t)
+            t_list = [Teacher(**s) for s in all_data]
+            Teacher.objects.bulk_create(t_list)
+            #t = Teacher()
+            #t.save()
+            #print(book.head(5).T.to_dict())
+
             f.delete()
 
     return render(request, 'teacher/import.html', {'form': form})
