@@ -20,15 +20,14 @@
     <!-- /.row -->
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card card-info card-outline">
           <div class="card-header">
-            <a class="btn btn-primary" href="{% url 'guest:teacher_create' %}">添加新教师</a>
-            <a class="btn btn-primary" href="{% url 'guest:teacher_import' %}">批量导入</a>
+            <a class="btn btn-info" href="{% url 'guest:teacher_create' %}"><i class="fas fa-user-plus"></i>添加新教师</a>
+            <a class="btn btn-info" href="{% url 'guest:teacher_import' %}"><i class="fas fa-upload"></i>批量导入</a>
             <div class="card-tools">
-            <form method="post" action="{% url 'guest:teacher_index' %}">
-                {% csrf_token %}
+            <form method="get" action="{% url 'guest:teacher_index' %}">
               <div class="input-group input-group-sm" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="使用拼音搜索">
+                <input type="text" name="search" class="form-control float-right" placeholder="使用拼音搜索">
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default">
                     <i class="fas fa-search"></i>
@@ -47,8 +46,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for teacher in teachers %}
-                        <tr><td>{{ teacher.id }}</td>
+                    {% for teacher in page.object_list %}
+                        <tr><td>{{ forloop.counter }}</td>
                             <td>{{ teacher.name }}</td>
                             <td>{{ teacher.pinx }}</td>
                             <td>{{ teacher.username }}</td>
@@ -57,8 +56,8 @@
                             <td>{{ teacher.get_type_display }}</td>
                             <td>{{ teacher.get_gender_display }}</td>
                             <td>{{ teacher.graduate }}</td>
-                            <td><a href="{% url 'guest:teacher_edit' teacher.id %}">编辑</a> |
-                                <a href="{% url 'guest:teacher_del' teacher.id %}">删除</a>
+                            <td><a  href="{% url 'guest:teacher_edit' teacher.id %}"><i class="fas fa-user-edit"></i> 编辑</a> |
+                                <a class="text-danger" href="{% url 'guest:teacher_del' teacher.id %}?path={{ path }}"><i class="fas fa-user-minus"></i> 删除</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -67,6 +66,36 @@
 
           </div>
           <!-- /.card-body -->
+          <div class="card-footer">
+
+            <ul class="pagination justify-content-end">
+               <li class="page-item"><a class="page-link">共<span class="badge badge-info">{{ page.paginator.num_pages }}</span> 页,<span class="badge badge-info">{{ page.paginator.count }} </span>条数据</a></li>
+                {% if page.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="{% url 'guest:teacher_index' as index %}?page={{ page.previous_page_number }}{{ search }}" tabindex="-1" aria-disabled="true"><i class="fas fa-backward"></i>上一页</a>
+                </li>
+                {% endif %}
+                {% for i in page.paginator.page_range %}
+                    {% if i == page.number %}
+                        <li class="page-item active" aria-current="page">
+                          <span class="page-link">
+                            {{ page.number }}
+                            <span class="sr-only">(current)</span>
+                          </span>
+                        </li>
+                    {% elif i <= page.number|add:-4 or i >= page.number|add:4 %}
+
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ index }}?page={{ i }}{{ search }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="{{ index }}?page={{ page.next_page_number }}{{ search }}">下一页<i class="fas fa-forward"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+          </div>
         </div>
         <!-- /.card -->
       </div>
