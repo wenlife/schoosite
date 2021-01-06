@@ -22,8 +22,8 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <a class="btn btn-primary" href="{% url 'setting:department-create' %}">添加数据</a>
-              <a class="btn btn-primary" href="{% url 'setting:department-create' %}">清空数据</a>
+            <a class="btn btn-info" href="{% url 'setting:department-create' %}">添加数据</a>
+              <a class="btn btn-danger" href="{% url 'setting:department-create' %}">清空数据</a>
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 150px;">
                 <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -49,8 +49,8 @@
                             <td>{{ department.entry_year }}</td>
                             <td>{{ department.person_in_charge }}</td>
                             <td>{{ department.note }}</td>
-                            <td><a href="{% url 'setting:department-edit' department.id %}">编辑</a> |
-                                <a href="{% url 'setting:department-del' department.id %}">删除</a>
+                            <td><a href="{% url 'setting:department-edit' department.id %}"><i class="fas fa-user-edit"></i> 编辑</a> |
+                                <a href="{% url 'setting:department-del' department.id %}"><i class="fas fa-user-minus"></i> 删除</a>
                             </td>
                         </tr>
                     {% endfor %}

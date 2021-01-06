@@ -1,4 +1,5 @@
 from django.db import models
+from django.core import validators
 from django import forms
 # Create your models here.
 
@@ -17,5 +18,12 @@ class Banji(models.Model):
     serial = models.SmallIntegerField()
     type = models.CharField(max_length=10)
     school = models.CharField(max_length=100, null=True, blank=True)
+    note = models.CharField(max_length=200, null=True, blank=True)
+
+
+class Term(models.Model):
+    title = models.CharField(max_length=200, verbose_name='学期标题')
+    start = models.DateField(verbose_name='开始日期')
+    end = models.DateField(verbose_name='结束日期')
     note = models.CharField(max_length=200, null=True, blank=True)
 

@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/plugins/daterangepicker/daterangepicker.css" />
+{% endblock %}
+{% block title %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1>学期编辑</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Simple Tables</li>
+    </ol>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card  card-info">
+          <div class="card-header">
+            <h3 class="card-title">编辑学期数据</h3>
+          </div>
+          <!-- /.card-header -->
+        <form method="post" action="{% url 'setting:term-edit' term.id %}">
+          <div class="card-body">
+              {% csrf_token %}
+              {{ form.as_p }}
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-info"> 提交新学期设置 </button>
+          </div>
+        </form>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %}
+{% block foot %}
+<script type="text/javascript" src="/static/plugins/daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="/static/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+  $(function () {
+      $('input#id_start, input#id_end').daterangepicker({
+        autoUpdateInput:false,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoApply:true,
+        locale: {
+          applyLabel : '确定',
+          cancelLabel : '取消',
+          fromLabel : '起始时间',
+          toLabel : '结束时间',
+          customRangeLabel : '自定义',
+          daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+          monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+          firstDay : 1,
+          format: 'YYYY-MM-DD',
+        },
+        startDate: moment(),
+
+    },
+    function(start, end, label) {
+        console.log("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    });
+    $('input#id_start, input#id_end').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD'));
+    });
+    $('input#id_start, input#id_end').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
+  })
+</script>
+{% endblock %}
+
+
+

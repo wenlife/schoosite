@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+<!-- 标题和导航位置 -->
+{% block title %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1>学期管理</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">首页</a></li>
+      <li class="breadcrumb-item active">学期</li>
+    </ol>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<!-- 页面内容区域 -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <a class="btn btn-info" href="{% url 'setting:term-create' %}"><i class="fa fa-plus-circle"></i> 添加数据</a>
+              <a class="btn btn-danger" href="{% url 'setting:term-create' %}"><i class="fa fa-eraser"></i> 清空数据</a>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr><th>编号</th><th>标题</th><th>开始时间</th><th>结束时间</th><th>备注</th><th>操作</th></tr>
+                </thead>
+                <tbody>
+                    {% for term in terms %}
+                        <tr><td>{{ forloop.counter }}</td>
+                            <td>{{ term.title }}</td>
+                            <td>{{ term.start }}</td>
+                            <td>{{ term.end }}</td>
+                            <td>{{ term.note }}</td>
+                            <td><a href="{% url 'setting:term-edit' term.id %}"><i class="fas fa-edit"></i> 编辑</a> |
+                                <a class="text-danger" href="{% url 'setting:term-del' term.id %}"><i class="fas fa-minus"></i> 删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+

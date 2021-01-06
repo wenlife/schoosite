@@ -14,9 +14,11 @@
         </div>
         <div class="info">
             {% if not request.user.is_authenticated %}
-                <h1>You are the one !</h1>
+                 <a href="#" class="d-block">生马禅师</a>
+            {% else %}
+                <a href="#" class="d-block">熟马禅师</a>
             {% endif %}
-          <a href="#" class="d-block">小马禅师</a>
+
         </div>
       </div>
 
@@ -58,7 +60,13 @@
               <li class="nav-item">
                 <a href="{% url 'setting:department-index' %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>教学部管理</p>
+                  <p>教学部设置</p>
+                </a>
+              </li>
+                <li class="nav-item">
+                <a href="{% url 'setting:term-index' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>学期设置</p>
                 </a>
               </li>
             </ul>
