@@ -25,7 +25,7 @@
             <h3 class="card-title">新增教学部数据</h3>
           </div>
           <!-- /.card-header -->
-        <form method="post" action="{% url 'setting:department-create' %}">
+        <form method="post" action="{% url 'setting:department-create' %}" class="form-horizontal">
           <div class="card-body">
               {% csrf_token %}
               {{ form.as_p }}

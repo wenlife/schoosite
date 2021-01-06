@@ -13,7 +13,7 @@ class DepartmentForm(forms.ModelForm):
         model = Department
         fields = ['title', 'entry_year', 'person_in_charge', 'note']
         widgets = {
-          'title': forms.TextInput(attrs={'class': 'form-control'}),
+          'title': forms.TextInput(attrs={'class': 'form-control form-control-border'}),
           'entry_year': forms.TextInput(attrs={'class': 'form-control'}),
           'person_in_charge': forms.TextInput(attrs={'class': 'form-control'}),
           'note': forms.TextInput(attrs={'class': 'form-control'})
